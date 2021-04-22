@@ -1,0 +1,3362 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "PlantEye API",
+        "version": "3.5",
+        "x-logo": {
+            "url": "psx_logo.svg"
+        },
+        "description": "This is a REST API made for distributors, integrators and customers to make it easier to use the system in custom environments!\nIt provides access to system internals, such as network settings, that commonly need to be changed, without exposing too much.\n\nThe whole documentation has been written according to OpenAPI 3 specification and can be downloaded above to be integrated into other REST or API frameworks, such as Postman.",
+        "contact": {
+            "name": "Phenospex Support",
+            "email": "support@phenospex.com",
+            "url": "https://phenospex.helpdocs.com"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://<ip_address>:1612"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Device",
+            "x-displayName": "Device",
+            "description": "Gives direct access to the hardware\n"
+        },
+        {
+            "name": "Network",
+            "x-displayName": "Network",
+            "description": "Access and modify network settings\n"
+        },
+        {
+            "name": "Settings",
+            "x-displayName": "Settings",
+            "description": "Modify settings related to the scanner itself as well as properties of the scans\n"
+        },
+        {
+            "name": "Logs",
+            "x-displayName": "Logging",
+            "description": "Direct access to process and system logs to help with troubleshooting\n"
+        },
+        {
+            "name": "Scan",
+            "x-displayName": "Scan",
+            "description": "For starting, stopping and identifying scans\n"
+        },
+        {
+            "name": "Models",
+            "x-displayName": "Models",
+            "description": "List and download available 3D scans\n"
+        },
+        {
+            "name": "Services",
+            "x-displayName": "System Services",
+            "description": "Troubleshooting facility that can be used to check if processes are running\n"
+        },
+        {
+            "name": "Info",
+            "x-displayName": "Info",
+            "description": "Quick access to some system information\n"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "DigestAuthIntegration": {
+                "type": "http",
+                "scheme": "digest",
+                "description": "Digest Authentication that gives access to additional functions that end users should not be able to access."
+            },
+            "DigestAuthPhenospex": {
+                "type": "http",
+                "scheme": "digest",
+                "description": "Digest Authentication that gives full access to all functions and removes restrictions for certain filter options."
+            }
+        },
+        "examples": {
+            "f00000.json": {
+                "value": {
+                    "transform_config": {
+                        "invert_x": 0,
+                        "invert_y": 0,
+                        "invert_z": 0,
+                        "yaw_act": 0,
+                        "pitch_act": 180,
+                        "roll_act": 0,
+                        "yaw_pe": 0,
+                        "pitch_pe": 0,
+                        "roll_pe": 0,
+                        "travel_pe": 1727,
+                        "x0": 0,
+                        "y0": 0,
+                        "z0": 0,
+                        "pe_z_corr_lin": 0,
+                        "pe_z_corr_quad": 0,
+                        "reference_point_corr": 0,
+                        "ref_x_start": 0,
+                        "ref_y_start": 0,
+                        "ref_z_start": 0,
+                        "ref_x_stop": 0,
+                        "ref_y_stop": 0,
+                        "ref_z_stop": 0
+                    },
+                    "split_config": {
+                        "field_x_period": 1050,
+                        "field_y_period": 1727,
+                        "field_z_range": 1500,
+                        "field_x_origin": -525,
+                        "field_y_origin": 0,
+                        "field_z_origin": 0,
+                        "x_sectors": 1,
+                        "y_sectors": 1,
+                        "field_xy_radius": 10000,
+                        "field_split_config": 0,
+                        "split_method": 1
+                    },
+                    "segment_config": {
+                        "domain_detector": {
+                            "search_radius": 5,
+                            "max_bnd_frac3d": 1,
+                            "rm_bnd_pnts_iters": 0,
+                            "grow_bnd_pnts_iters": 0,
+                            "emb_pnts_search_range": 5,
+                            "emb_pnts_thres": 0.1,
+                            "emb_pnts_iters": 0,
+                            "x_flatten_range": 1,
+                            "y_flatten_range": 1,
+                            "min_vertex_size": 5,
+                            "max_vertex_size": 10000000
+                        },
+                        "intens_map": {
+                            "mode": 1,
+                            "min_plant_ff": 0.03,
+                            "min_soil_ff": 0.1,
+                            "h_thres_f": 0.6,
+                            "m_thres_f": 0.2,
+                            "l_thres_f": 0.1,
+                            "plant_intens": 150,
+                            "soil_intens": 20,
+                            "h_thres": 80,
+                            "m_thres": 30,
+                            "l_thres": 20,
+                            "h_edge_thres_f": 0.5,
+                            "l_edge_thres_f": 0.15,
+                            "h_edge_thres": 50,
+                            "l_edge_thres": 15,
+                            "in_range": 0,
+                            "save_raw": 0,
+                            "save_thres": 0,
+                            "save_blur": 0,
+                            "save_sobel": 0,
+                            "save_sobel_nms": 0,
+                            "save_edge_map": 0,
+                            "apply_thres": 0,
+                            "apply_blur": 0,
+                            "apply_sobel": 0,
+                            "apply_sobel_nms": 0,
+                            "apply_edge_map": 0
+                        }
+                    },
+                    "triangulate_config": {
+                        "max_side_length": 5,
+                        "max_aspect_ratio": 5
+                    },
+                    "merge_config": {
+                        "x_res": 2,
+                        "y_res": 2,
+                        "z_res": 2,
+                        "leaf_count": 20,
+                        "min_intersect_count": 10
+                    },
+                    "calculate_config": {
+                        "crop_l": 0.98,
+                        "crop_h": 0.02,
+                        "pot_height": 0
+                    }
+                }
+            }
+        }
+    },
+    "paths": {
+        "/device/serial": {
+            "get": {
+                "summary": "Get Serial Number",
+                "description": "Returns the serial number of the device if it has been set.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "description": "Contains only digits."
+                                },
+                                "examples": {
+                                    "PlantEye": {
+                                        "value": "0012",
+                                        "description": "May have leading 0s"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "PlantEye": {
+                                        "value": "404 File does not exist"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Device"
+                ]
+            },
+            "put": {
+                "summary": "Set Serial Number",
+                "security": [{"DigestAuthPhenospex": []}],
+                "description": "Sets the numerical serial number of the PlantEye.",
+                "parameters": [],
+                "requestBody": {
+                    "description": "New serial must only contain digits, but leading 0s are fine.",
+                    "content": {
+                        "plain/text": {                            
+                            "schema": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "OK": {
+                                        "value": "Serial set to 0012"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Not a number": {
+                                        "value": "400 Bad Request (abc is not a number)"
+                                    },
+                                    "Empty request body": {
+                                        "value": "400 Bad Request (empty request body)"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Authentication needed": {
+                                        "value": "Authentication needed"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Device"
+                ]
+            },
+            "post": {
+                "summary": "Set Serial Number",
+                "security": [{"DigestAuthPhenospex": []}],
+                "description": "Sets the numerical serial number of the PlantEye.",
+                "parameters": [],
+                "requestBody": {
+                    "description": "New serial must only contain digits, but leading 0s are fine.",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {                            
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "serial": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "multipart/form-data": {                            
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "serial": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "OK": {
+                                        "value": "Serial set to 0012"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Not a number": {
+                                        "value": "400 Bad Request (abc is not a number)"
+                                    },
+                                    "Empty request body": {
+                                        "value": "400 Bad Request (empty request body)"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Authentication needed": {
+                                        "value": "Authentication needed"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Device"
+                ]
+            }
+        },
+        "/device/reboot": {
+            "get": {
+                "summary": "Reboot the System",
+                "description": "Use the [POST method](#operation/DeviceReboot) instead",
+                "parameters": [],
+                "responses": {
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Default": {
+                                        "value": "405 Use POST method for actions"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Device"
+                ]
+            },
+            "post": {
+                "summary": "Reboot the System",
+                "description": "Reboots the system 5 seconds after this call has been made, as long as there is no network restart in progress.",
+                "operationId": "DeviceReboot",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Default": {
+                                        "value": "System is going down for reboot in 5 seconds."
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Default": {
+                                        "value": "503 Server is busy"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Device"
+                ]
+            }
+        },
+
+        "/device/shutdown": {
+            "get": {
+                "summary": "Shutdown the System",
+                "description": "Use the [POST method](#operation/DeviceShutdown) instead",
+                "parameters": [],
+                "responses": {
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Default": {
+                                        "value": "405 Use POST method for actions"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Device"
+                ]
+            },
+            "post": {
+                "summary": "Shutdown the System",
+                "description": "Shuts down the system 5 seconds after this call has been made, as long as there is no network restart in progress.",
+                "operationId": "DeviceShutdown",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Default": {
+                                        "value": "System is shutting down in 5 seconds."
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Default": {
+                                        "value": "503 Server is busy"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Device"
+                ]
+            }
+        },
+        "/device/mcu": {
+            "get": {
+                "summary": "Last MCU Response",
+                "description": "Returns the last response from the microcontroller if it exists.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Default": {
+                                        "value": ""
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Device"
+                ]
+            },
+            "post": {
+                "summary": "Send Command to MCU",
+                "description": "Sends a command to the microcontroller via the scanner service. Then waits for 50ms and returns the last response, if it exists.<br>Note: Use at your own risk, improper use of some commands can cause serious damage to the device.",
+                "parameters": [],
+                "security": [{"DigestAuthIntegration": []}],
+                "requestBody": {
+                    "description": "Command to send to the microcontroller. You can request a list of valid commands from Phenospex, or look at the [list of supported commands](http://intranet/wiki/doku.php?id=planteye_data_flow) in the internal Phenospex wiki.",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {                            
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "command": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "multipart/form-data": {                            
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "command": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "description": "Always of the form: `command - response`"
+                                },
+                                "examples": {
+                                    "XT:0": {
+                                        "value": "XT:0 - 27.2500"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Authentication needed": {
+                                        "value": "Authentication needed"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Default": {
+                                        "value": "503 No response from MCU (is the scanner service running?)"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Device"
+                ]
+            }
+        },
+        
+
+        "/device/network": {
+            "get": {
+                "summary": "Get Network Settings",
+                "description": "Returns the current contents of `/etc/network/interfaces`.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "PlantEye": {
+                                        "value": "# This file describes the network interfaces available on your system\n# and how to activate them. For more information, see interfaces(5).\n\nsource /etc/network/interfaces.d/*\n\n# The loopback network interface\nauto lo\niface lo inet loopback\n\n# The primary network interface\nallow-hotplug enp1s0\n#iface enp1s0 inet dhcp\niface enp1s0 inet static\n        address 192.168.3.121\n        netmask 255.255.252.0\n        gateway 192.168.1.254\n        #dns-nameservers 192.168.1.1\n\n#allow-hotplug ens3\n#iface ens3 inet dhcp\n"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Network"
+                ]
+            },
+            "put": {
+                "summary": "Upload Interfaces File",
+                "security": [{"DigestAuthPhenospex": []}],
+                "description": "Replaces the current contents of `/etc/network/interfaces` with the request body.",
+                "parameters": [],
+                "requestBody": {
+                    "description": "File content that will replace `/etc/network/interfaces`",
+                    "content": {
+                        "plain/text": {                            
+                            "schema": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "OK": {
+                                        "value": "Updated /etc/network/interfaces"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Empty file": {
+                                        "value": "400 Bad request"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Authentication needed": {
+                                        "value": "Authentication needed"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Network"
+                ]
+            },
+            "post": {
+                "summary": "Upload Interfaces File",
+                "security": [{"DigestAuthPhenospex": []}],
+                "description": "Replaces the current contents of `/etc/network/interfaces` with the request body. Uses the form field `interfaces-file`.",
+                "parameters": [],
+                "requestBody": {
+                    "description": "File content that will replace `/etc/network/interfaces`",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {                            
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "interfaces-file": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "multipart/form-data": {                            
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "interfaces-file": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "OK": {
+                                        "value": "Updated /etc/network/interfaces"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Empty file": {
+                                        "value": "400 Bad request"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Authentication needed": {
+                                        "value": "Authentication needed"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Network"
+                ]
+            }
+        },
+        "/device/network/ip": {
+            "get": {
+                "summary": "Get List of IPs",
+                "description": "Returns a list of all currently available external IP addresses of the system. Or an empty list if no interface is up.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "examples": {
+                                    "List of addresses": {
+                                        "value": ["192.168.1.246","192.168.3.240","192.168.178.1"]
+                                    },
+                                    "Empty List": {
+                                        "value": []
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Network"
+                ]
+            }
+        },
+        "/device/network/interfaces": {
+            "get": {
+                "summary": "Get Interfaces",
+                "description": "Returns a list of all available interfaces of the system. Or an empty list if no interface is up.",
+                "operationId": "NetworkInterfaces",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "examples": {
+                                    "List of Interfaces": {
+                                        "value": ["lo","enp1s0"]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Network"
+                ]
+            }
+        },
+        "/device/network/edit": {
+            "get": {
+                "summary": "Edit Network Page",
+                "description": "Minimalistic page that can be used to update settings in the file `/etc/network/interfaces`. See the [set interface endpoint](#operation/NetworkInterfaceKey) to get a list of settings that can be updated and what they are for. Note that changing these settings by themselves won't restart the network. There is a separate [endpoint to restart the network](#operation/NetworkChange).",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Page": {
+                                        "value": "<html><head><meta charset='utf-8'/><script type='text/javascript'>function doSubmit() {var interface = document.getElementById('interface');var key = document.getElementById('key');document.interface_form.action = '/device/network/' + interface.value + '/' + key.value;}</script></head><body><h1>Edit Network Settings</h1><form action='' method='POST' name='interface_form' onsubmit='doSubmit()'>Interface: <select id='interface'><option value='lo'>lo</option><option value='enp1s0'>enp1s0</option></select><br><br>Key: <select id='key'><br><br><option value='method'>method</option><option value='address'>address</option><option value='netmask'>netmask</option><option value='gateway'>gateway</option><option value='dns-nameservers'>dns-nameservers</option><option value='post-up'>post-up</option></select><br><br><input name='content' type='text'><br><br><input type='submit' value='Submit'></form></body></html>"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Network"
+                ]
+            }
+        },
+        "/device/network/change": {
+            "post": {
+                "summary": "Apply Network Settings",
+                "security": [{"DigestAuthPhenospex": []}],
+                "description": "Once you are done changing the settings of `/etc/network/interfaces` using the various endpoints, the network has to be restarted. This endpoint will restart the default network interface. After the restart you have 60 seconds to confirm that you can still reach the server with [the confirm endpoint](#operation/NetworkConfirm). If you cannot confirm in time that the webserver is reachable, then it will revert to the previous working settings and restart the interfaces again.",
+                "operationId": "NetworkChange",
+                "parameters": [
+                    {
+                        "name": "Request-Timeout",
+                        "in": "header",
+                        "required": false,
+                        "description": "Optional timeout in seconds before network settings will be reverted.",
+                        "schema": {
+                            "type": "integer",
+                            "default": 60,
+                            "minimum": 30,
+                            "maximum": 3600
+                        }
+                    }
+                ],
+                "responses": {                    
+                    "202": {
+                        "description": "Accepted",
+                        "headers": {
+                            "Location": {
+                                "required": true,
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "description": "Endpoint for redirect. It tries to parse `/etc/network/interfaces`, find the address for the default interface and use it instead of `<new_ip>` in the example. If it can't find an address, e.g. because the interface was set to DHCP, then it will use the literal string `<new_ip>`. In the latter case it is up to the user to find out what the new IP will be.",
+                                "example": "http://<new_ip>:1612/device/network/confirm"
+                            }
+                        },
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Redirect": {
+                                        "value": "202 Network is going down for restart"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Request-Timeout out of bounds": {
+                                        "value": "400 Bad request (timeout must be between 1 and 3600 seconds)"
+                                    },
+                                    "Not a number in Request-Timeout": {
+                                        "value": "400 Bad request"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Authentication needed": {
+                                        "value": "Authentication needed"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Server busy",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Multiple requests": {
+                                        "value": "503 Network is restarting"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Network"
+                ]
+            }
+        },
+        "/device/network/confirm": {
+            "get": {
+                "summary": "Confirm New Settings",
+                "description": "Once you are done changing the settings of `/etc/network/interfaces` using the various endpoints, the network has to be restarted. This is done via the [restart network endpoint](#operation/NetworkChange). After the restart you have 20 seconds to confirm that you can still reach the server with this endpoint.",
+                "operationId": "NetworkConfirm",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {
+                            "Access-Control-Allow-Origin": {
+                                "required": true,
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "description": "Since this endpoint will be redirected to during a network change, we need to allow Cross-Origin Resource Sharing (CORS).",
+                                "example": "*"
+                            }
+                        },
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Settings confirmed": {
+                                        "value": "New settings confirmed"
+                                    },
+                                    "Still restarting": {
+                                        "value": "Network still restarting"
+                                    },
+                                    "No changes were made": {
+                                        "value": "No changes to confirm"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Network"
+                ]
+            },
+            "post": {
+                "summary": "Confirm New Settings",
+                "description": "Once you are done changing the settings of `/etc/network/interfaces` using the various endpoints, the network has to be restarted. This is done via the [restart network endpoint](#operation/NetworkChange). After the restart you have 20 seconds to confirm that you can still reach the server with this endpoint.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {
+                            "Access-Control-Allow-Origin": {
+                                "required": true,
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "description": "Since this endpoint will be redirected to during a network change, we need to allow Cross-Origin Resource Sharing (CORS).",
+                                "example": "*"
+                            }
+                        },
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Settings confirmed": {
+                                        "value": "New settings confirmed"
+                                    },
+                                    "Still restarting": {
+                                        "value": "Network still restarting"
+                                    },
+                                    "No changes were made": {
+                                        "value": "No changes to confirm"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Network"
+                ]
+            }
+        },
+        "/device/network/{interface}/{key}": {
+            "get": {
+                "summary": "Get Interface Value",
+                "description": "Returns a specific line from `/etc/network/interfaces`. If there was a change in this file, but no restart of the network via the [apply changes endpoint](#operation/NetworkChange), then the current values of the networking service and the values inside `/etc/network/interfaces` might differ. This endpoint only shows the current state of the file and what will be used at the time of a network restart.<br>Note: Exception to the rule is the key `ip` which will return the current IP assigned to the interface and might differ from `address` for the reasons mentioned above.",
+                "parameters": [
+                    {
+                        "name": "interface",
+                        "in": "path",
+                        "description": "An array of all acceptable interfaces is obtainable from [/device/network/interfaces](#operation/NetworkInterfaces).",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "key",
+                        "in": "path",
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        },
+                        "required": true,
+                        "description": "List of possible keys:\n- ` ` (empty key): Returns all values for the interface\n- `ip`: Returns the current IP\n- `method`: static or dhcp\n- `address`: Static IP address\n- `netmask`: Returns the netmask\n- `gateway`: Returns the gateway\n- `dns-nameservers`: Space separated list of all DNS servers\n- `post-up`: Returns the first post-up rule. Use an empty key to see everything."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Empty key": {
+                                        "value": "iface enp1s0 inet static\naddress 192.168.3.121\nnetmask 255.255.252.0\ngateway 192.168.1.254\ndns-nameservers 192.168.1.1 8.8.8.8\n"
+                                    },
+                                    "method": {
+                                        "value": "static"
+                                    },
+                                    "ip": {
+                                        "value": "192.168.3.123"
+                                    },
+                                    "address": {
+                                        "value": "192.168.3.121"
+                                    },
+                                    "netmask": {
+                                        "value": "255.255.252.0"
+                                    },
+                                    "gateway": {
+                                        "value": "192.168.1.254"
+                                    },
+                                    "dns-nameservers": {
+                                        "value": "192.168.1.1 8.8.8.8"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Network"
+                ]
+            },
+            "put": {
+                "summary": "Set Interface Value",
+                "description": "Modify or add a specific line in `/etc/network/interfaces` with the value used in the request body. If there was a change in this file, but no restart of the network via the [apply changes endpoint](#operation/NetworkChange), then the current values of the networking service and the values inside `/etc/network/interfaces` might differ. This endpoint only modifies the current state of the file and what will be used at the time of a network restart.",
+                "operationId": "NetworkInterfaceKey",
+                "requestBody": {
+                    "description": "New value that will be used for the `key` specified in the path.",
+                    "content": {
+                        "plain/text": {                            
+                            "schema": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "parameters": [
+                    {
+                        "name": "interface",
+                        "in": "path",
+                        "description": "An array of all acceptable interfaces is obtainable from [/device/network/interfaces](#operation/NetworkInterfaces).",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "key",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "List of possible keys:\n- `method`: static or dhcp\n- `address`: IP address if the method is set to static\n- `netmask`: For setting the netmask\n- `gateway`: For setting the gateway\n- `dns-nameservers`: Space separated list of all DNS servers\n- `post-up`: Will always be appended. The only allowed commands for post-up rules are `ip route` additions.<br>Note: Sending an empty request body will delete all lines for the given key."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "PlantEye": {
+                                        "value": "# This file describes the network interfaces available on your system\n# and how to activate them. For more information, see interfaces(5).\n\nsource /etc/network/interfaces.d/*\n\n# The loopback network interface\nauto lo\niface lo inet loopback\n\n# The primary network interface\nallow-hotplug enp1s0\n#iface enp1s0 inet dhcp\niface enp1s0 inet static\n        address 192.168.3.121\n        netmask 255.255.252.0\n        gateway 192.168.1.254\n        #dns-nameservers 192.168.1.1\n\n#allow-hotplug ens3\n#iface ens3 inet dhcp\n"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Bad Request": {
+                                        "value": "400 Bad request"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Network"
+                ]
+            },
+            "post": {
+                "summary": "Set Interface Value",
+                "description": "Modify or add a specific line in `/etc/network/interfaces` with the value used in the request body. Uses the upload field `interfaces-file`. If there was a change in this file, but no restart of the network via the [apply changes endpoint](#operation/NetworkChange), then the current values of the networking service and the values inside `/etc/network/interfaces` might differ. This endpoint only modifies the current state of the file and what will be used at the time of a network restart.",
+                "requestBody": {
+                    "description": "New value that will be used for the `key` specified in the path.",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {                            
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "content": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "multipart/form-data": {                            
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "content": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "interface",
+                        "in": "path",
+                        "description": "An array of all acceptable interfaces is obtainable from [/device/network/interfaces](#operation/NetworkInterfaces).",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "key",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "List of possible keys:\n- `method`: static or dhcp\n- `address`: IP address if the method is set to static\n- `netmask`: For setting the netmask\n- `gateway`: For setting the gateway\n- `dns-nameservers`: Space separated list of all DNS servers\n- `post-up`: Will always be appended. The only allowed commands for post-up rules are `ip route` additions.<br>Note: Sending a request body with an empty `content` field will delete all lines for the given key."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "PlantEye": {
+                                        "value": "# This file describes the network interfaces available on your system\n# and how to activate them. For more information, see interfaces(5).\n\nsource /etc/network/interfaces.d/*\n\n# The loopback network interface\nauto lo\niface lo inet loopback\n\n# The primary network interface\nallow-hotplug enp1s0\n#iface enp1s0 inet dhcp\niface enp1s0 inet static\n        address 192.168.3.121\n        netmask 255.255.252.0\n        gateway 192.168.1.254\n        #dns-nameservers 192.168.1.1\n\n#allow-hotplug ens3\n#iface ens3 inet dhcp\n"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Bad Request": {
+                                        "value": "400 Bad request"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Network"
+                ]
+            }
+        },
+        "/device/network/restart": {
+            "post": {
+                "summary": "Restart the network",
+                "description": "Warning: Restarts the default network interface without any checks for correctness. Can potentially leave the system in an unreachable state. If possible use the [apply settings endpoint](#operation/NetworkChange).<br>Note: This endpoint is meant to be called over serial port if the system is not reachable or if any potential backup file should be ignored. If a backup file exists at reboot it will be restored. To remove the backup file use the apply settings endpoint mentioned above.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Default": {
+                                        "value": "Restarted the default network interface"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Network"
+                ]
+            }
+        },
+        "/device/network/reset": {
+            "post": {
+                "summary": "Reset the network",
+                "description": "Resets the network back to factory settings if it is supported by the system. These values can vary, but by default the settings are:\n- Network interface method: `static`\n- IP address: `192.168.3.250`\n- Netmask: `255.255.252.0`\n- Gateway `192.168.1.254`",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Default": {
+                                        "value": "Restarted the default network interface"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Default": {
+                                        "value": "500 File required for reset does not exist"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Network"
+                ]
+            }
+        },
+
+        "/settings/scanner": {
+            "get": {
+                "summary": "Get Scanner Settings",
+                "security": [{"DigestAuthPhenospex": []}],
+                "description": "Returns a JSON of most settings that influence the behaviour of the scanner service.<br>Changes to these settings will be used after a [restart of the scanner service](#operation/ServicesRestart).",
+                "operationId": "SettingsScanner",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Settings"
+                ]
+            },
+            "put": {
+                "summary": "Upload Scanner Settings",
+                "security": [{"DigestAuthPhenospex": []}],
+                "description": "Upload a new scanner configuration. Since some of the values have been set during calibration this endpoint should not be used if you just want to update a few values.",
+                "parameters": [],
+                "requestBody": {
+                    "description": "Content that will replace the entire f500.json",
+                    "content": {
+                        "application/json": {                            
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Empty request body": {
+                                        "value": "400 Bad Request"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Authentication needed": {
+                                        "value": "Authentication needed"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Settings"
+                ]
+            },
+            "post": {
+                "summary": "Upload Scanner Settings",
+                "security": [{"DigestAuthPhenospex": []}],
+                "description": "Upload a new scanner configuration. Since some of the values have been set during calibration this endpoint should not be used if you just want to update a few values.",
+                "parameters": [],
+                "requestBody": {
+                    "description": "Content that will replace the entire f500.json",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {                            
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "json": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        },
+                        "multipart/form-data": {                            
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "json": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Empty request body": {
+                                        "value": "400 Bad Request"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Authentication needed": {
+                                        "value": "Authentication needed"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Settings"
+                ]
+            }
+        },
+        "/settings/scanner/{path}": {
+            "get": {
+                "summary": "Get Specific Scanner Settings",
+                "security": [{"DigestAuthPhenospex": []}],
+                "description": "Query specific settings that influence the behaviour of the scanner service.",
+                "parameters": [
+                    {
+                        "name": "path",
+                        "in": "path",
+                        "required": true,
+                        "description": "The specific path you want to access. An empty `path` is identical to [the endpoint above](#operation/SettingsScanner).",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "examples": {
+                                    "/settings/scanner/trigger/trigger_mode": {
+                                        "value": 1010
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Settings"
+                ]
+            },
+            "put": {
+                "summary": "Update Specific Scanner Settings",
+                "security": [{"DigestAuthPhenospex": []}],
+                "operationId": "SettingsScannerPath",
+                "description": "Update specific settings that influence the behaviour of the scanner service.<br>Changes to these settings will be used after a [restart of the scanner service](#operation/ServicesRestart).",
+                "parameters": [
+                    {
+                        "name": "path",
+                        "in": "path",
+                        "required": true,
+                        "description": "The specific path you want to access. An empty `path` is identical to [the endpoint above](#operation/SettingsScanner).\nThe following paths do not require authentication:\n- `/xz_profile/lower_int_threshold`: Noise threshold filter, increase in case of strong sunlight or reflective surfaces (Range: [3..9], Default: 5)\n- `/xz_profile/first_to_max_thres`: Duplicate laser line filter, `0.0` means take the first point of noise you can find, `1.0` means always take the brightest points, reducing it can marginally increase measurement accuracy (Range: [0.5..1.0], Default: 1.0) \n- `/xz_profile/ms_rgb_max_int`: Saturation level for the conversion from raw 16bit camera values to 8bit RGB colours. Lower values result in brighter RGB, but may cause the scans to look overexposed (Range: [600-3000], Default: 2200).\n- `/barcode_detection/read_bc_trials`: Number of attempts for physical barcode detection. Setting it to 0 will disable barcode detection. (Range: [0..30], Default: 20)\n- `/barcode_detection/zmin`: Minimum distance of a physical barcode to the scanner. Should only be changed if a table or the ground is causing issues. Must correct `zhist_divn` after changing. (Range: [400..1100], Default: 400)\n- `/barcode_detection/zmax`: Maximum distance of a physical barcode to the scanner. Should only be changed if a barcode is out of range. Must correct `zhist_divn` after changing. (Range: [700..1500], Default: 1100)\n- `/barcode_detection/zhist_divn`: Resolution of Hough transformation. Should be zmax - zmin. (Range: [300..1100], Default: 700)\n- `/trigger/trigger_mode`: <ol><p>`1010` starts scan if scanner enable signal is received (rising edge) and stops the scan when scanner enable signal goes low. Every `field_id_mode` is supported.</p><p>`1020` starts scan if scanner enable signal is received (rising edge) and stops the scan when a physical barcode is detected. If the scanner enable signal goes down before the stop barcode is detected, the measurement is discarded. `field_id_mode` must be 1.</p><p>`2020` starts scan when a physical start barcode is detected, stops the scan when stop barcode is detected. field_id_mode parameter must be 1.</p><p>`30XX` scans are started and stopped by the detection of physical barcodes</p><p>`3001` scan in ascending order only (e.g. barcodes 6 - 7 - 8 ...)</p><p>`3010` scan in descending order only (e.g. barcodes 5 - 4 - 3 ...)</p><p>`3011` scan in ascending AND descending order</p></ol>\n- `/trigger/field_id_mode`: <ol><p>`0`: All scans get the ID 0</p><p>`1`: Scans are identified by physical barcodes</p><p>`2`: Scans are identified by IDs, which have been set with the [POST /scan/block-id endpoint](#operation/ScanBlockID) prior to the end of the scan.</p></ol>\n- `/scan/field_y_length`: Defines the length of a scan and must be equal to the physical length of the field, i.e. the distance between the physical barcodes, or the distance between rising and falling edge in `1010` mode.\n- `/watchdog/ping_ip`: The connection LED on the back of the PlantEye will light up as long as the IP address or system here can be reached. Can be set to `localhost` if there are no other systems involved.\n- `/watchdog/raw_data_ttl`: Old scans will be deleted before the hard drive gets full. But you can also choose to automatically discard files above a certain age, e.g. 864000s = 10 days. (Default: 864000)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "New value that will be used at the specified `path`.",
+                    "content": {
+                        "application/json": {                            
+                            "schema": {
+                                "type": "object"
+                            },
+                            "examples": {
+                                "/settings/scanner/trigger/trigger_mode": {
+                                    "value": 1010
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "examples": {
+                                    "/settings/scanner/trigger/trigger_mode": {
+                                        "value": 1010
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "/settings/scanner/trigger/trigger_mode": {
+                                        "value": 1010
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Authentication needed": {
+                                        "value": "Authentication needed"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Settings"
+                ]
+            },
+            "post": {
+                "summary": "Update Specific Scanner Settings",
+                "security": [{"DigestAuthPhenospex": []}],
+                "description": "Update specific settings that influence the behaviour of the scanner service.<br>Changes to these settings will be used after a [restart of the scanner service](#operation/ServicesRestart).",
+                "parameters": [
+                    {
+                        "name": "path",
+                        "in": "path",
+                        "required": true,
+                        "description": "The specific path you want to access. An empty `path` is identical to [the endpoint above](#operation/SettingsScanner).\nThe following paths do not require authentication:\n- `/xz_profile/lower_int_threshold`: Noise threshold filter, increase in case of strong sunlight or reflective surfaces (Range: [3..9], Default: 5)\n- `/xz_profile/first_to_max_thres`: Duplicate laser line filter, `0.0` means take the first point of noise you can find, `1.0` means always take the brightest points, reducing it can marginally increase measurement accuracy (Range: [0.5..1.0], Default: 1.0) \n- `/xz_profile/ms_rgb_max_int`: Saturation level for the conversion from raw 16bit camera values to 8bit RGB colours. Lower values result in brighter RGB, but may cause the scans to look overexposed (Range: [600-3000], Default: 2200).\n- `/barcode_detection/read_bc_trials`: Number of attempts for physical barcode detection. Setting it to 0 will disable barcode detection. (Range: [0..30], Default: 20)\n- `/barcode_detection/zmin`: Minimum distance of a physical barcode to the scanner. Should only be changed if a table or the ground is causing issues. Must correct `zhist_divn` after changing. (Range: [400..1100], Default: 400)\n- `/barcode_detection/zmax`: Maximum distance of a physical barcode to the scanner. Should only be changed if a barcode is out of range. Must correct `zhist_divn` after changing. (Range: [700..1500], Default: 1100)\n- `/barcode_detection/zhist_divn`: Resolution of Hough transformation. Should be zmax - zmin. (Range: [300..1100], Default: 700)\n- `/trigger/trigger_mode`: <ol><p>`1010` starts scan if scanner enable signal is received (rising edge) and stops the scan when scanner enable signal goes low. Every `field_id_mode` is supported.</p><p>`1020` starts scan if scanner enable signal is received (rising edge) and stops the scan when a physical barcode is detected. If the scanner enable signal goes down before the stop barcode is detected, the measurement is discarded. `field_id_mode` must be 1.</p><p>`2020` starts scan when a physical start barcode is detected, stops the scan when stop barcode is detected. field_id_mode parameter must be 1.</p><p>`30XX` scans are started and stopped by the detection of physical barcodes</p><p>`3001` scan in ascending order only (e.g. barcodes 6 - 7 - 8 ...)</p><p>`3010` scan in descending order only (e.g. barcodes 5 - 4 - 3 ...)</p><p>`3011` scan in ascending AND descending order</p></ol>\n- `/trigger/field_id_mode`: <ol><p>`0`: All scans get the ID 0</p><p>`1`: Scans are identified by physical barcodes</p><p>`2`: Scans are identified by IDs, which have been set with the [POST /scan/block-id endpoint](#operation/ScanBlockID) prior to the end of the scan.</p></ol>\n- `/scan/field_y_length`: Defines the length of a scan and must be equal to the physical length of the field, i.e. the distance between the physical barcodes, or the distance between rising and falling edge in `1010` mode.\n- `/watchdog/ping_ip`: The connection LED on the back of the PlantEye will light up as long as the IP address or system here can be reached. Can be set to `localhost` if there are no other systems involved.\n- `/watchdog/raw_data_ttl`: Old scans will be deleted before the hard drive gets full. But you can also choose to automatically discard files above a certain age, e.g. 864000s = 10 days. (Default: 864000)",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "New value that will be used at the specified `path`.",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {                            
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "json": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        },
+                        "multipart/form-data": {                            
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "json": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "examples": {
+                                    "/settings/scanner/trigger/trigger_mode": {
+                                        "value": 1010
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Empty request body": {
+                                        "value": "400 Bad Request"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Authentication needed": {
+                                        "value": "Authentication needed"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Settings"
+                ]
+            }
+        },
+        "/settings/scanner/edit": {
+            "get": {
+                "summary": "Edit Scanner Settings",
+                "description": "Minimalistic page that can be used to edit the scanner settings. Can be used be support to easily modify the internal settings. Will ask for authentication when using any of the submit buttons.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Settings"
+                ]
+            }
+        },
+        "/settings/blocks": {
+            "get": {
+                "summary": "Get List of Blocks",
+                "description": "Returns a list of all block ID configuration files that are currently on the system.",
+                "operationId": "SettingsBlocks",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "examples": {
+                                    "List of Files": {
+                                        "value": ["default.json","f00000.json","f00004.json","f00005.json"]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Settings"
+                ]
+            }
+        },
+        "/settings/blocks/{id}/{path}": {
+            "get": {
+                "summary": "Get Block Settings",
+                "description": "Used to read out the specific settings that will be applied to a scan with a specific block ID once it goes through the PHENA processing chain in HortControl. Among other things, these settings are used to transform, segment, triangulate and split scans.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The specific block you want to check. The only allowed non-integer value is `default`, which refers to a read-only block.",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9999
+                        }
+                    },
+                    {
+                        "name": "path",
+                        "in": "path",
+                        "required": true,
+                        "description": "The settings you want to get. An empty path refers to the entire file.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "examples": {
+                                    "/settings/blocks/0/transform_config/invert_x": {
+                                        "value": 0
+                                    },
+                                    "/settings/blocks/0/triangulate_config": {
+                                        "value": {
+                                            "max_side_length": 5,
+                                            "max_aspect_ratio": 5
+                                        }
+                                    },
+                                    "/settings/blocks/0": {
+                                        "$ref" : "#/components/examples/f00000.json"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Out of bounds": {
+                                        "value": "400 Block ID must be between 0 and 9999"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Settings"
+                ]
+            },
+            "put": {
+                "summary": "Update Block Settings",
+                "security": [{"DigestAuthPhenospex": []}],
+                "operationId": "SettingsBlocksPath",
+                "description": "Used to update specific settings that will be applied to a scan with a specific block ID once it goes through the PHENA processing chain in HortControl. Among other things, these settings are used to transform, segment, triangulate and split scans.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The specific block you want to update. The only allowed non-integer value is `default`, which refers to a read-only block that will require authentication.",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9999
+                        }
+                    },
+                    {
+                        "name": "path",
+                        "in": "path",
+                        "required": true,
+                        "description": "The settings you want to update. An empty path refers to the entire file.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "New value that will be used at the specified `path`.",
+                    "content": {
+                        "application/json": {                            
+                            "schema": {
+                                "type": "object"
+                            },
+                            "examples": {
+                                "/settings/blocks/0/transform_config/invert_x": {
+                                    "value": 0
+                                },
+                                "/settings/blocks/0/triangulate_config": {
+                                    "value": {
+                                        "max_side_length": 5,
+                                        "max_aspect_ratio": 5
+                                    }
+                                },
+                                "/settings/blocks/0": {
+                                    "$ref" : "#/components/examples/f00000.json"
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "examples": {
+                                    "/settings/blocks/0/transform_config/invert_x": {
+                                        "value": 0
+                                    },
+                                    "/settings/blocks/0/triangulate_config": {
+                                        "value": {
+                                            "max_side_length": 5,
+                                            "max_aspect_ratio": 5
+                                        }
+                                    },
+                                    "/settings/blocks/0": {
+                                        "$ref" : "#/components/examples/f00000.json"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Out of bounds": {
+                                        "value": "400 Block ID must be between 0 and 9999"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Authentication needed": {
+                                        "value": "Authentication needed"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Settings"
+                ]
+            },
+            "post": {
+                "summary": "Update Block Settings",
+                "security": [{"DigestAuthPhenospex": []}],
+                "description": "Used to update specific settings that will be applied to a scan with a specific block ID once it goes through the PHENA processing chain in HortControl. Among other things, these settings are used to transform, segment, triangulate and split scans.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The specific block you want to update. The only allowed non-integer value is `default`, which refers to a read-only block that will require authentication.",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9999
+                        }
+                    },
+                    {
+                        "name": "path",
+                        "in": "path",
+                        "required": true,
+                        "description": "The settings you want to update. An empty path refers to the entire file.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "New value that will be used at the specified `path`.",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {                            
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "json": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        },
+                        "multipart/form-data": {                            
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "json": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "examples": {
+                                    "/settings/blocks/0/transform_config/invert_x": {
+                                        "value": 0
+                                    },
+                                    "/settings/blocks/0/triangulate_config": {
+                                        "value": {
+                                            "max_side_length": 5,
+                                            "max_aspect_ratio": 5
+                                        }
+                                    },
+                                    "/settings/blocks/0": {
+                                        "$ref" : "#/components/examples/f00000.json"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Out of bounds": {
+                                        "value": "400 Block ID must be between 0 and 9999"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Authentication needed": {
+                                        "value": "Authentication needed"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Settings"
+                ]
+            }
+        },
+        "/settings/blocks/{id}/edit": {
+            "get": {
+                "summary": "Edit Block Settings",
+                "description": "Minimalistic page that can be used to edit the block settings.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "The specific block you want to edit. The only allowed non-integer value is `default`, which refers to a read-only block, that will require authorisation.",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9999
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Out of bounds": {
+                                        "value": "400 Block ID must be between 0 and 9999"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Settings"
+                ]
+            }
+        },
+
+        "/logs": {
+            "get": {
+                "summary": "Get Phenospex Logs",
+                "description": "This returns the system logs of at least warning level for the services that were made by Phenospex. Requires systemd to be installed on the system.",
+                "operationId": "Logs",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Logs"
+                ]
+            }
+        },
+        "/logs/latest": {
+            "get": {
+                "summary": "Get Recent Phenospex Logs",
+                "description": "Truncated version of [the endpoint above](#operation/Logs). This returns the last 50 lines of system logs of at least warning level for the services that were made by Phenospex. Requires systemd to be installed on the system.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Logs"
+                ]
+            }
+        },
+        "/logs/{service}": {
+            "get": {
+                "summary": "Get Service Logs",
+                "description": "This returns the system logs of at least warning level for a specific service. Requires systemd to be installed on the system.",
+                "operationId": "LogsService",
+                "parameters": [
+                    {
+                        "name": "service",
+                        "in": "path",
+                        "description": "Specific service that you want the logs of.\nAllowed services are any of the following:\n- `f500` (the scanner itself)\n- `webserver`\n- `lighttpd`\n- `chrony`\n- `cron`\n- `incron`",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Logs"
+                ]
+            }
+        },
+        "/logs/{service}/latest": {
+            "get": {
+                "summary": "Get Recent Service Logs",
+                "description": "Truncated version of [the endpoint above](#operation/LogsService). This returns the last 50 lines of system logs of at least warning level for a specific service. Requires systemd to be installed on the system.",
+                "parameters": [
+                    {
+                        "name": "service",
+                        "in": "path",
+                        "description": "Specific service that you want the logs of.",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Logs"
+                ]
+            }
+        },
+        "/logs/all": {
+            "get": {
+                "summary": "Get All Logs",
+                "description": "This returns all system logs of at least warning level for all services. Requires systemd to be installed on the system.",
+                "operationId": "LogsAll",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Logs"
+                ]
+            }
+        },
+        "/logs/all/latest": {
+            "get": {
+                "summary": "Get Recent Logs",
+                "description": "Truncated version of [the endpoint above](#operation/LogsAll). This returns the last 50 lines of at least warning level for all services. Requires systemd to be installed on the system.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Logs"
+                ]
+            }
+        },
+
+        "/scan": {
+            "get": {
+                "summary": "Scan status",
+                "description": "Not implemented\n",
+                "parameters": [],
+                "responses": {
+                    "501": {
+                        "description": "Not Implemented",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Error": {
+                                        "value": "501 Not Implemented"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Scan"
+                ]
+            },
+            "post": {
+                "summary": "Scan status",
+                "description": "Not implemented\n",
+                "parameters": [],
+                "responses": {
+                    "501": {
+                        "description": "Not Implemented",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Error": {
+                                        "value": "501 Not Implemented"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Scan"
+                ]
+            }
+        },
+
+        "/scan/start": {
+            "post": {
+                "summary": "Start Scan",
+                "description": "Tries to start a scan by sending a START signal to the hardware.<br>Note: Needs version 4 of microcontroller firmware and will only work on PlantEyes produced after January 2020. Due to software limitations there is no immediate return value that indicates whether the signal was sent successfully.\n",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Default": {
+                                        "value": "Sent START to MCU"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Scan"
+                ]
+            }
+        },
+        "/scan/stop": {
+            "post": {
+                "summary": "Stop Scan",
+                "description": "Tries to stop a scan by sending a STOP signal to the hardware.<br>Note: Needs version 4 of microcontroller firmware and will only work on PlantEyes produced after January 2020. Due to software limitations there is no immediate return value that indicates whether the signal was sent successfully.\n",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Default": {
+                                        "value": "Sent STOP to MCU"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Scan"
+                ]
+            }
+        },
+
+        "/scan/block-id": {
+            "get": {
+                "summary": "Get Block ID",
+                "description": "Returns the numerical ID that will be used to identify the next scan or `-1` if no ID has been specified.<br>These will only be used if the right field id mode is set, see [/settings/scanner/trigger/field_id_mode](#operation/SettingsScannerPath).\n",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "integer",
+                                    "minimum": -1,
+                                    "maximum": 9999
+                                },
+                                "examples": {
+                                    "ID has been set": {
+                                        "value": "123"
+                                    },
+                                    "ID is undefined": {
+                                        "value": "-1"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Missing File",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Not Found": {
+                                        "value": "404 ID file missing"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Scan"
+                ]
+            },
+            "post": {
+                "summary": "Set Block ID",
+                "description": "Set a numerical ID that will be used to identify the next scan.<br>These will only be used if the right field id mode is set, see [/settings/scanner/trigger/field_id_mode](#operation/SettingsScannerPath).",
+                "operationId": "ScanBlockID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "required": true,
+                        "description": "The next scan will get this number",
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9999
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "maximum": 9999,
+                                    "description": "Will return the ID on success"
+                                },
+                                "examples": {
+                                    "New Block ID": {
+                                        "value": "123"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "description": "Might be one of:\n- Not a number: `400 Block ID is not a valid number (id: {id})`\n- Out of range: `400 Block ID must be between 0 and 9999`\n- Empty ID: `400 Empty ID`\n- Otherwise: `400 Bad request`"
+                                },
+                                "examples": {
+                                    "Not a number": {
+                                        "value": "400 Block ID is not a valid number (id: abc)"
+                                    },
+                                    "Out of range": {
+                                        "value": "400 Block ID must be between 0 and 9999"
+                                    },
+                                    "Empty ID": {
+                                        "value": "400 Empty ID"
+                                    },
+                                    "Otherwise": {
+                                        "value": "400 Bad request"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Scan"
+                ]
+            }
+        },
+
+        "/viewer/index.html": {
+            "get": {
+                "summary": "View 3D Models",
+                "description": "An HTML page that can be used to look at 3D scans.",
+                "operationId": "ViewerIndex",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Models"
+                ]
+            }
+        },
+        "/models": {
+            "get": {
+                "summary": "List 3D Models",
+                "description": "List of the last 3D scans that are still on the system.",
+                "operationId": "ListModels",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "examples": {
+                                    "Example": {
+                                        "value": ["f00000_20191127T125523", "f00023_20191127T142056"]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Models"
+                ]
+            }
+        },
+        "/models/{file}": {
+            "get": {
+                "summary": "Show 3D Model",
+                "description": "Redirects to the [3D viewer page](#operation/ViewerIndex).<br>Note: Currently it does not automatically open the file.",
+                "parameters": [
+                    {
+                        "name": "file",
+                        "in": "path",
+                        "required": true,
+                        "description": "The filename of the 3D model you want to see (with or without .ply extension). You can get a list of files from the [list models endpoint](#operation/ListModels)",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "f00000_20191127T125523"
+                    }
+                ],
+                "responses": {
+                    "303": {
+                        "description": "See Other",
+                        "headers": {
+                            "Location": {
+                                "required": true,
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "description": "Endpoint for redirect",
+                                "example": "/viewer/index.html"
+                            }
+                        },
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Redirect": {
+                                        "value": "303 See Other"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Models"
+                ]
+            }
+        },
+
+        "/models/{file}/raw": {
+            "get": {
+                "summary": "Download Raw Model",
+                "description": "This endpoint is used to download a specific 3D model as point cloud. The scan has not been transformed or processed in any way and the model is stored in binary PLY file format, see https://en.wikipedia.org/wiki/PLY_(file_format)",
+                "parameters": [
+                    {
+                        "name": "file",
+                        "in": "path",
+                        "required": true,
+                        "description": "The filename of the 3D model you want to download (with or without .ply extension). You can get a list of files from the [list models endpoint](#operation/ListModels)",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "f00000_20191127T125523"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {
+                            "Content-Disposition": {
+                                "required": true,
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "description": "Endpoint for redirect",
+                                "example": "attachment;filename=\"f00000_20191127T125523.ply\""
+                            }
+                        },
+                        "content": {
+                            "application/x-ply": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Models"
+                ]
+            }
+        },
+        "/models/{file}/transformed": {
+            "get": {
+                "summary": "Download Transformed Model",
+                "description": "This endpoint is used to download a specific 3D model as point cloud. The scan has been rotated, stretched, skewed and put in the correct coordinate system according to the [block settings for its block ID](#operation/SettingsBlocksPath). The model is stored in binary PLY file format, see https://en.wikipedia.org/wiki/PLY_(file_format)",
+                "parameters": [
+                    {
+                        "name": "file",
+                        "in": "path",
+                        "required": true,
+                        "description": "The filename of the 3D model you want to download (with or without .ply extension). You can get a list of files from the [list models endpoint](#operation/ListModels)",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "f00000_20191127T125523"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {
+                            "Content-Disposition": {
+                                "required": true,
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "description": "Filename for download",
+                                "example": "attachment;filename=\"f00000_20191127T125523.ply\""
+                            }
+                        },
+                        "content": {
+                            "application/x-ply": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Could Not Transform",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "example": "500 Could not transform file"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Models"
+                ]
+            }
+        },
+        
+        "/services": {
+            "get": {
+                "summary": "List Services",
+                "description": "List services currently running on the system",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Example": {
+                                        "value": "[ + ]  chrony\n[ - ]  console-setup.sh\n[ + ]  cron\n[ + ]  dbus\n[ - ]  hwclock.sh\n[ + ]  incron\n[ - ]  keyboard-setup.sh\n[ + ]  kmod\n[ + ]  lighttpd\n[ + ]  networking\n[ + ]  procps\n[ - ]  rsync\n[ + ]  rsyslog\n[ + ]  ssh\n[ - ]  sudo\n[ + ]  udev\n[ + ]  ueyeethdrc\n[ + ]  ueyeusbdrc\n"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Services"
+                ]
+            }
+        },
+
+        "/services/{service}": {
+            "get": {
+                "summary": "Service Status",
+                "description": "Returns the status of a particular service. Identical to the [status call below](#operation/ServicesStatus).",
+                "parameters": [
+                    {
+                        "name": "service",
+                        "in": "path",
+                        "required": true,
+                        "description": "The specific service you want to query.\nAllowed services are any of the following:\n- `scanner` or `f500`\n- `webserver`\n- `lighttpd`\n- `chrony`\n- `cron`\n- `incron`",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Example": {
+                                        "value": "● f500.service - F500 scanner\nLoaded: loaded (/etc/systemd/system/f500.service; enabled; vendor preset: enabled)\nActive: inactive (dead) since Wed 2019-11-27 08:47:13 UTC; 4h 50min ago\nProcess: 441 ExecStart=/usr/bin/stdbuf -oL /home/phenospex/f500/f500 -c /home/phenospex/f500/f500.json (code=exited, status=0/SUCCESS)\nMain PID: 441 (code=exited, status=0/SUCCESS)\n\nNov 27 08:43:20 pe-AM f500[441]: [DBG] 20191127T084320.514: Ping hortcontrol ok\nNov 27 08:44:21 pe-AM f500[441]: [DBG] 20191127T084421.569: Ping hortcontrol ok\nNov 27 08:45:20 pe-AM f500[441]: [INF] 20191127T084520.594: Checking disk space: total 0 files, 0 files removed based on time stamp\nNov 27 08:45:20 pe-AM f500[441]: [INF] 20191127T084520.594: Disk free space: 19447MB\nNov 27 08:45:22 pe-AM f500[441]: [DBG] 20191127T084522.626: Ping hortcontrol ok\nNov 27 08:46:23 pe-AM f500[441]: [DBG] 20191127T084623.684: Ping hortcontrol ok\nNov 27 08:47:12 pe-AM systemd[1]: Stopping F500 scanner...\nNov 27 08:47:12 pe-AM f500[441]: [WRN] 20191127T084712.751: Signal 15 caught, exiting.\nNov 27 08:47:13 pe-AM systemd[1]: Stopped F500 scanner.\n"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Error": {
+                                        "value": "400 Bad request"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Services"
+                ]
+            }
+        },
+        "/services/{service}/status": {
+            "get": {
+                "summary": "Service Status",
+                "description": "Returns the status of a particular service. Output is taken from systemd.",
+                "operationId": "ServicesStatus",
+                "parameters": [
+                    {
+                        "name": "service",
+                        "in": "path",
+                        "required": true,
+                        "description": "The specific service you want to query.\nAllowed services are any of the following:\n- `scanner` or `f500`\n- `webserver`\n- `lighttpd`\n- `chrony`\n- `cron`\n- `incron`",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Example": {
+                                        "value": "● f500.service - F500 scanner\nLoaded: loaded (/etc/systemd/system/f500.service; enabled; vendor preset: enabled)\nActive: inactive (dead) since Wed 2019-11-27 08:47:13 UTC; 4h 50min ago\nProcess: 441 ExecStart=/usr/bin/stdbuf -oL /home/phenospex/f500/f500 -c /home/phenospex/f500/f500.json (code=exited, status=0/SUCCESS)\nMain PID: 441 (code=exited, status=0/SUCCESS)\n\nNov 27 08:43:20 pe-AM f500[441]: [DBG] 20191127T084320.514: Ping hortcontrol ok\nNov 27 08:44:21 pe-AM f500[441]: [DBG] 20191127T084421.569: Ping hortcontrol ok\nNov 27 08:45:20 pe-AM f500[441]: [INF] 20191127T084520.594: Checking disk space: total 0 files, 0 files removed based on time stamp\nNov 27 08:45:20 pe-AM f500[441]: [INF] 20191127T084520.594: Disk free space: 19447MB\nNov 27 08:45:22 pe-AM f500[441]: [DBG] 20191127T084522.626: Ping hortcontrol ok\nNov 27 08:46:23 pe-AM f500[441]: [DBG] 20191127T084623.684: Ping hortcontrol ok\nNov 27 08:47:12 pe-AM systemd[1]: Stopping F500 scanner...\nNov 27 08:47:12 pe-AM f500[441]: [WRN] 20191127T084712.751: Signal 15 caught, exiting.\nNov 27 08:47:13 pe-AM systemd[1]: Stopped F500 scanner.\n"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Error": {
+                                        "value": "400 Bad request"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Services"
+                ]
+            }
+        },
+        "/services/{service}/start": {
+            "post": {
+                "summary": "Start Service",
+                "description": "Tells systemd to start a specific service. Return value might be empty.",
+                "parameters": [
+                    {
+                        "name": "service",
+                        "in": "path",
+                        "required": true,
+                        "description": "The specific service you want to start.\nAllowed services are any of the following:\n- `scanner` or `f500`\n- `webserver`\n- `lighttpd`\n- `chrony`\n- `cron`\n- `incron`",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Example": {
+                                        "value": ""
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Error": {
+                                        "value": "400 Bad request"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Services"
+                ]
+            }
+        },
+
+        "/services/{service}/stop": {
+            "post": {
+                "summary": "Stop Service",
+                "description": "Tells systemd to stop a specific service. Return value might be empty.",
+                "parameters": [
+                    {
+                        "name": "service",
+                        "in": "path",
+                        "required": true,
+                        "description": "The specific service you want to stop.\nAllowed services are any of the following:\n- `scanner` or `f500`\n- `webserver`\n- `lighttpd`\n- `chrony`\n- `cron`\n- `incron`",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Example": {
+                                        "value": ""
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Error": {
+                                        "value": "400 Bad request"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Services"
+                ]
+            }
+        },
+        "/services/{service}/restart": {
+            "post": {
+                "summary": "Restart Service",
+                "description": "Tells systemd to restart a specific service. Return value might be empty.",
+                "operationId": "ServicesRestart",
+                "parameters": [
+                    {
+                        "name": "service",
+                        "in": "path",
+                        "required": true,
+                        "description": "The specific service you want to restart.\nAllowed services are any of the following:\n- `scanner` or `f500`\n- `webserver`\n- `lighttpd`\n- `chrony`\n- `cron`\n- `incron`",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Example": {
+                                        "value": ""
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Error": {
+                                        "value": "400 Bad request"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Services"
+                ]
+            }
+        },
+
+        "/debug/images": {
+            "get": {
+                "summary": "3D Camera Images",
+                "security": [{"DigestAuthPhenospex": []}],
+                "description": "Shows a webpage with several images used in the creation of one 3D profile. These can be used for troubleshooting in case of reflection artifacts.<br>Note: These are purely for debugging purposes and should not be treated as a feature.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Info"
+                ]
+            }
+        },
+        "/debug/images/{image}": {
+            "get": {
+                "summary": "Debug Image",
+                "security": [{"DigestAuthPhenospex": []}],
+                "description": "Returns a specific debug image.<br>Note: These are purely for debugging purposes and should not be treated as a feature.",
+                "parameters": [
+                    {
+                        "name": "image",
+                        "in": "path",
+                        "required": true,
+                        "description": "Filename corresponding to a debug image. Possible values are\n- `3d_ref0.bmp`: Previous reference image\n- `3d_laser.bmp`: Image with laser line\n- `3d_ref.bmp`: Current reference image\n- `3d_laser_proc.bmp`: Difference of laser line and reference images\n- `ms_0.bmp` ... `ms_9.bmp`: Debug images for multispectral camera",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "image/bmp": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Info"
+                ]
+            }
+        },
+        "/debug/images/update": {
+            "post": {
+                "summary": "Update Debug Images",
+                "security": [{"DigestAuthPhenospex": []}],
+                "description": "Sends a request to the scanning process to store debug images during the next profile creation. Then waits for 50ms and returns a Refresh Content HTTP status.<br>Note: These are purely for debugging purposes and should not be treated as a feature.",
+                "parameters": [],
+                "responses": {
+                    "205": {
+                        "description": "Refresh Content (No return value)"
+                    }
+                },
+                "tags": [
+                    "Info"
+                ]
+            }
+        },
+        "/debug/info/architecture": {
+            "get": {
+                "summary": "Get Architecture",
+                "description": "Returns whether the system is 32bit or 64bit (returns system architecture string in every other case)",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "32bit": {
+                                        "value": "32bit"
+                                    },
+                                    "64bit": {
+                                        "value": "64bit"
+                                    },
+                                    "otherwise": {
+                                        "summary": "Example output in another case",
+                                        "value": "arm"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Info"
+                ]
+            }
+        },
+        "/debug/info/camera": {
+            "get": {
+                "summary": "Get Camera Information",
+                "security": [{"DigestAuthPhenospex": []}],
+                "description": "Dumps camera information and driver version",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Info"
+                ]
+            }
+        },
+
+        "/debug/info/os": {
+            "get": {
+                "summary": "Get Operating System",
+                "description": "Returns a pretty printed string of the used operating system",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Operating System (F500)": {
+                                        "value": "Debian GNU/Linux 9 (stretch)"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Info"
+                ]
+            }
+        },
+        "/debug/info/space": {
+            "get": {
+                "summary": "Get Disk Space",
+                "description": "Returns available space on the home partition",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Operating System (F500)": {
+                                        "value": "Filesystem      Size  Used Avail Use% Mounted on\n/dev/sda4        21G  549M   20G   3% /home"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Info"
+                ]
+            }
+        },
+        "/debug/info/version": {
+            "get": {
+                "summary": "Get Version",
+                "description": "Returns the software version of the webserver. In case of a software update that only affects other parts of the scanner this version will not change.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                },
+                                "examples": {
+                                    "Software Version": {
+                                        "value": "3.4.385-8d370f3a1d79"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Info"
+                ]
+            }
+        }
+    }
+}
