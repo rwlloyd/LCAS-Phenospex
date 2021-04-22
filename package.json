@@ -1,7 +1,7 @@
 {
-  "name": "nodejs-panandtilt",
+  "name": "lcas-phenospex-interface",
   "version": "1.0.0",
-  "description": "nodejs interface for Raspberry pi based Pan and Tilt mechanism",
+  "description": "nodejs interface for Raspberry pi based Phenospex controller",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rwlloyd/nodejs-panandtilt.git"
+    "url": "git+https://github.com/rwlloyd/LCAS-Phenospex.git"
   },
   "keywords": [
     "node",
@@ -25,7 +25,7 @@
     "pigpio"
   ],
   "bugs": {
-    "url": "https://github.com/rwlloyd/nodejs-panandtilt/issues"
+    "url": "https://github.com/rwlloyd/LCAS-Phenospex/issues"
   },
-  "homepage": "https://github.com/rwlloyd/nodejs-panandtilt#readme"
+  "homepage": "https://github.com/rwlloyd/LCAS-Phenospex#readme"
 }

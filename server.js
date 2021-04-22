@@ -1,5 +1,6 @@
-// node.js based controller for Servo Pan and Tilt Mechanism based on 
-// a Raspberrpy Pi single board computer
+// node.js based interface for the Phenospex Planteye 500 Sensors
+// Communicates VIa a REST API. See
+// 
 
 // Based off of Shawn Van Every's Live Web
 // http://itp.nyu.edu/~sve204/liveweb_fall2013/week3.html
@@ -26,87 +27,56 @@ console.log('App listening on port 3000');
 
 app.use(express.static('public'));
 
-// // WebSocket Portion
-// // WebSockets work with the HTTP server
-// var io = require('socket.io')(server);
+// WebSocket Portion
+// WebSockets work with the HTTP server
+var io = require('socket.io')(server);
 
-// // Register a callback function to run when we have an individual connection
-// // This is run for each individual user that connects
-// io.sockets.on('connection',
-//   // We are given a websocket object in our function
-//   function (socket) {
-  
-//     console.log("We have a new client: " + socket.id);
-  
-//     // When this user emits, client side: socket.emit('otherevent',some data);
-//     socket.on('mouse',
-//       function(data) {
-//         // Data comes in as whatever was sent, including objects
-//         console.log("Received: 'mouse' " + data.x + " " + data.y);
-        
-//         // Here is where we control the servos
-//         setServo(panServo, data.x);
-//         setServo(tiltServo, data.y);
+// Register a callback function to run when we have an individual connection
+// This is run for each individual user that connects
+io.sockets.on('connection',
+    // We are given a websocket object in our function
+    function (socket) {
 
-//         // Send it to all other clients
-//         //socket.broadcast.emit('mouse', data);
-        
-//         // This is a way to send to everyone including sender
-//         // io.sockets.emit('message', "this goes to everyone");
+        console.log("We have a new client: " + socket.id);
 
-//       }
-//     );
-    
-//     socket.on('disconnect', function() {
-//       console.log("Client has disconnected");
-//     });
-//   }
-// );
+        // When this user emits, client side: socket.emit('otherevent',some data);
+        // expect incoming data to be labeled 'newData'
+        socket.on('newData',
+            function (data) {
+                // Data comes in as whatever was sent, including objects
+                console.log("Received: 'mouse' " + data.x + " " + data.y);
+
+                // Here is where we do something with the new data
 
 
-///// HARDWARE STUFF to control servos ----------------------------------------
+                // Send it to all other clients
+                //socket.broadcast.emit('mouse', data);
+
+                // This is a way to send to everyone including sender
+                // io.sockets.emit('message', "this goes to everyone");
+
+            }
+        );
+
+        socket.on('disconnect', function () {
+            console.log("Client has disconnected");
+        });
+    }
+);
+
+///// HARDWARE STUFF to coontrol the start scan button ----------------------------------------
 
 // const Gpio = require('pigpio').Gpio;
 
-// const panServoPin = 23;
-// const tiltServoPin = 24;
 // const buttonPin = 25;
 // var scanning = false;
 
-// // These are angles from the centre point
-// const panMin = -60;
-// const panMax = 60;
-// const tiltMin = -60;
-// const tiltMax = 60;
-
-// // Scanning Parameters
-// scan_shape =  [5,5] // X x Y positions..
-// home = [0,0]  // Save the home position for later
-
-// const panServo = new Gpio(panServoPin, {mode: Gpio.OUTPUT});
-// const tiltServo = new Gpio(tiltServoPin, {mode: Gpio.OUTPUT});
-
 // const button = new Gpio(buttonPin, {
-//   mode: Gpio.INPUT,
-//   pullUpDown: Gpio.PUD_UP,
-//   edge: Gpio.RISING_EDGE
+//   mode: Gpio.OUTPUT,
 // });
-
 // // Map function lifted directly from p5.js source code
 // // https://github.com/processing/p5.js/blob/main/src/math/calculation.js
 // map = function(n, start1, stop1, start2, stop2, withinBounds) {
 //     const newval = (n - start1) / (stop1 - start1) * (stop2 - start2) + start2;
 //     return newval;
 // };
-
-// // Function to move a servo between minangle and maxangle
-// // data coming in is from 0-canvasSize with all of the coordinate implications that has
-// function setServo(servo, pos){
-//     console.log("Writing " + pos+200 + " to " + servo);
-    
-//     //calculate the pulsewidth for the given position on the screen (400px)
-//     // pulsewidth is between 1000 and 2000 (0.1-0.2ms - 0-180 deg)
-//     pulseWidth = Math.floor(map(pos, 400, 0, 1250, 1750));
-
-//     servo.servoWrite(pulseWidth);
-//   }

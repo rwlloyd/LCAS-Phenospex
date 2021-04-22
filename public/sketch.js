@@ -1,4 +1,6 @@
-// ITP Networked Media, Fall 2014
+// P5.js sketch served as the interface for LCAS-Phenospex 
+
+// Based on
 // https://github.com/shiffman/itp-networked-media
 // Daniel Shiffman
 
@@ -8,13 +10,23 @@ var socket;
 function setup() {
   createCanvas(400, 400);
   background(0);
+
+  // DOM element for the desired block-id
+  const blockId = null;
+  let blockIDinput = createInput('');
+  blockIDinput.position(50,10);
+  blockIDinput.size(100);
+  blockIDinput.input(blockIdCallback);
+
+
+
   // Start a socket connection to the server
   // Some day we would run this server somewhere else
-  //socket = io.connect('http://localhost:3000');
-  socket = io.connect('http://192.168.1.84:3000')
-  // We make a named event called 'mouse' and write an
+  socket = io.connect('http://localhost:3000');
+  //socket = io.connect('http://192.168.1.84:3000')
+  // We make a named event called 'newData' and write an
   // anonymous callback function
-  socket.on('mouse',
+  socket.on('newData',
     // When we receive data
     function(data) {
       console.log("Got: " + data.x + " " + data.y);
@@ -28,6 +40,11 @@ function setup() {
 
 function draw() {
   // Nothing
+}
+
+function blockIdCallback(){
+  console.log('you are typing...', 
+  this.value());
 }
 
 function mouseDragged() {
@@ -45,11 +62,11 @@ function sendmouse(xpos, ypos) {
   console.log("sendmouse: " + xpos + " " + ypos);
   
   // Make a little object with  and y
-  var data = {
+  var newData = {
     x: xpos,
     y: ypos
   };
 
   // Send that object to the socket
-  socket.emit('mouse',data);
+  socket.emit('newData', newData);
 }
