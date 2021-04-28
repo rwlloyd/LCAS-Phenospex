@@ -1,0 +1,4 @@
+To Set the block-id on both scanners to 123;
+
+POST http://192.168.3.241:1612/scan/block-id?id=123
+POST http://192.168.3.240:1612/scan/block-id?id=123
