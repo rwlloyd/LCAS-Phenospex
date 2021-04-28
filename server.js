@@ -41,10 +41,10 @@ io.sockets.on('connection',
 
         // When this user emits, client side: socket.emit('otherevent',some data);
         // expect incoming data to be labeled 'newData'
-        socket.on('newData',
+        socket.on('data',
             function (data) {
                 // Data comes in as whatever was sent, including objects
-                console.log("Received: 'mouse' " + data.x + " " + data.y);
+                console.log("Received: 'newData' " + data.blockId);
 
                 // Here is where we do something with the new data
 
