@@ -10,7 +10,12 @@ Manual Interface for Phenospex API
   npm install
   
   node server.js
+  
+## to-do
 
+Getting an error when making the POST request from p5.js. it needs to come from the node server
+
+https://nodejs.dev/learn/make-an-http-post-request-using-nodejs
 
 ## Alternatively...
 
