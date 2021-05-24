@@ -1,11 +1,38 @@
 // node.js based interface for the Phenospex Planteye 500 Sensors
-// Communicates VIa a REST API. See
+// Communicates the REST API on the sensors to set the block-id manually. 
+// See associated documentation in repository.
+// R. Lloyd. Lincoln. 2021.
 // 
+// message format {block_id, last_block_id, master_ok, slave_ok, start_scan}
+//
 
 // Based off of Shawn Van Every's Live Web
 // http://itp.nyu.edu/~sve204/liveweb_fall2013/week3.html
 
 // lets have the webserver bit that runs on the pi, http://ipaddress:3000
+
+// Keep track of the IP addresses of sensors
+let master_ip = '192.168.3.240';
+let slave_ip = '192.168.3.241';
+let master_url = 'http://' + master_ip + ':1612/scan/block-id?id='
+let slave_url = 'http://' + slave_ip + ':1612/scan/block-id?id='
+
+// create variables for the data object and give them some initial values
+let new_id;
+let last_block_id = '';
+let master_ok = false;
+let slave_ok = false;
+let start_scan = false;
+
+// Make a little data object from those variables. The contents of this object control the 
+// flow of the script
+let data = {
+    "newblock": new_id,
+    "lastblock": last_block_id,
+    "mok": master_ok,
+    "sok": slave_ok,
+    "start": start_scan
+  };
 
 // Using express: http://expressjs.com/
 var express = require('express');
@@ -44,11 +71,28 @@ io.sockets.on('connection',
         socket.on('data',
             function (data) {
                 // Data comes in as whatever was sent, including objects
-                console.log("Received: 'newData' " + data.blockId);
+                console.log("Received: " + data.newblock + ', ' + data.lastblock + ', ' + data.mok + ', ' + data.sok + ', ' + data.start);
 
-                // Here is where we do something with the new data
+                if (data.start && data.mok && data.sok) {
+                    //runscan
+                    console.log("Running scan?")
+                } else {
+                    // OK, but what would we actually do?
+                    //new_id = data.newblock;
+                    // Send the new block ID to the sensors
 
-
+                    // Lets assume it returns good
+                    // Set the result
+                    data.mok = true;
+                    data.sok = true;
+                    // set new block to old block for the reply
+                    data.lastblock = data.newblock;
+                    // reset newblock id
+                    data.newblock = '';
+                    // Send the message to the clients so it can update
+                    io.sockets.emit('data', data);
+                    console.log("Sent: 'newData' " + data.newblock + ', ' + data.lastblock + ', ' + data.mok + ', ' + data.sok + ', ' + data.start);
+                }
                 // Send it to all other clients
                 //socket.broadcast.emit('mouse', data);
 
@@ -63,6 +107,37 @@ io.sockets.on('connection',
         });
     }
 );
+
+// // Make the call to the master sensor this is from a p5 js sketch. probably won't work as is
+//   master_url + new_id,
+//   "POST",
+//   function (response) {
+//     console.log(response)
+//     if (response == "200") {
+//       console.log("Master response GOOD");
+//       last_block_id = new_id;
+//       master_gtg = true;
+//     } else {
+//       console.log("Master response BAD");
+//       master_gtg = false;
+//     }
+//   }
+// );
+// // Make the post request to the slave sensor
+// httpDo(
+//   slave_url + new_id,
+//   "POST",
+//   function (response) {
+//     if (response == "200") {
+//       console.log("Slave response GOOD");
+//       last_block_id = new_id;
+//       slave_gtg = true;
+//     } else {
+//       console.log("Slave response: " + response);
+//       slave_gtg = false;
+//     }
+//   }
+// );
 
 ///// HARDWARE STUFF to coontrol the start scan button ----------------------------------------
 

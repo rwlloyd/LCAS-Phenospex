@@ -1,7 +1,7 @@
 # LCAS-Phenospex
 Manual Interface for Phenospex API
 
-# Usage
+# Installation
 
   git clone https://github.com/rwlloyd/LCAS-Phenospex.git
   
@@ -10,5 +10,11 @@ Manual Interface for Phenospex API
   npm install
   
   node server.js
+
+# Driving
+
+### [Thorvalds Quick-Start guide](./DrivingThorvalds.md)
+
+
 
 
