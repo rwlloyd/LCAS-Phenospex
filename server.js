@@ -19,7 +19,7 @@ let slave_url = 'http://' + slave_ip + ':1612/scan/block-id?id='
 
 // create variables for the data object and give them some initial values
 let new_id;
-let last_block_id = '';
+let last_block_id;
 let master_ok = false;
 let slave_ok = false;
 let start_scan = false;
@@ -44,7 +44,7 @@ var app = express();
 //var server = app.listen(process.env.PORT || 3000, listen);
 
 // This call back just tells us that the server has started
-//function listen() {
+//function listen() 
 //  var host = server.address().address;
 //  var port = server.address().port;
 //  console.log('Example app listening at http://' + host + ':' + port);
