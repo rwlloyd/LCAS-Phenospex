@@ -59,16 +59,16 @@ function setup() {
 
   // Start a socket connection to the server
   // Some day we would run this server somewhere else
-  //socket = io.connect('http://localhost:3000');
+  socket = io.connect('http://localhost:3000');
   // socket = io.connect('http://192.168.1.84:3000')
-  socket = io.connect('http://10.101.12.56:3000')
+  //socket = io.connect('http://10.101.12.56:3000')
   // We make a named event called 'newData' and write an
   // anonymous callback function
   socket.on('data',
     // When we receive data
     function (data) {
       console.log("Got: " + data.newblock + ', ' + data.lastblock + ', ' + data.mok + ', ' + data.sok + ', ' + data.start);
-      user_input.value(data.newblock); ///// HOw do you set the text?
+      user_input.value(data.newblock); 
       last_block_id = data.lastblock;
       master_ok = data.mok;
       slave_ok = data.sok;
@@ -145,7 +145,7 @@ function run_scan(data) {
 // Function for sending to the socket
 function send_message(data) {
   var newData = data;
-  console.log('Sending: ' + newData);
+  console.log('Sending: ' + data.newblock + ', ' + data.lastblock + ', ' + data.mok + ', ' + data.sok + ', ' + data.start);
   // Send that object to the socket
   socket.emit('data', newData);
 }

@@ -18,7 +18,7 @@ let master_url = 'http://' + master_ip + ':1612/scan/block-id?id='
 let slave_url = 'http://' + slave_ip + ':1612/scan/block-id?id='
 
 // create variables for the data object and give them some initial values
-let new_id;
+let new_id = '';
 let last_block_id;
 let master_ok = false;
 let slave_ok = false;
@@ -31,7 +31,8 @@ let data = {
     "lastblock": last_block_id,
     "mok": master_ok,
     "sok": slave_ok,
-    "start": start_scan
+    "start": start_scan,
+    "scan_finished":false
   };
 
 // Using express: http://expressjs.com/
@@ -66,6 +67,9 @@ io.sockets.on('connection',
 
         console.log("We have a new client: " + socket.id);
 
+        // lets initialise the client from the server instead. seems a bit better
+        io.sockets.emit('data', data);
+
         // When this user emits, client side: socket.emit('otherevent',some data);
         // expect incoming data to be labeled 'newData'
         socket.on('data',
@@ -76,22 +80,38 @@ io.sockets.on('connection',
                 if (data.start && data.mok && data.sok) {
                     //runscan
                     console.log("Running scan?")
-                } else {
-                    // OK, but what would we actually do?
-                    //new_id = data.newblock;
-                    // Send the new block ID to the sensors
+                    // <--- call to close the relay goes here  --->
 
+                    // Don't forget to reset the UI
+                    data.lastblock = last_block_id;
+                    data.mok = false;
+                    data.sok = false;
+                    data.newblock = ''; 
+                } else {
+                    // save the new block id
+                    new_id = data.newblock;
+                    // Send the new block ID to the sensors
                     // Lets assume it returns good
-                    // Set the result
+
+                    // Set the result of talking with the sensors
                     data.mok = true;
                     data.sok = true;
+
+                    // Let's sort out the whole last id. Everything is controlled by the server
+                    // so the server needs to set the last block ID. only when it has actually been sent to the 
+                    // sensors
                     // set new block to old block for the reply
-                    data.lastblock = data.newblock;
+                    last_block_id = data.newblock;
+                    // set the last block id to send back
+                    data.lastblock = last_block_id;
+
                     // reset newblock id
                     data.newblock = '';
-                    // Send the message to the clients so it can update
+                    // we dont need to touch start-scan 
+
+                    // Send the message to the clients so it can update th UI and wat for the start click
                     io.sockets.emit('data', data);
-                    console.log("Sent: 'newData' " + data.newblock + ', ' + data.lastblock + ', ' + data.mok + ', ' + data.sok + ', ' + data.start);
+                    console.log("Sent: " + data.newblock + ', ' + data.lastblock + ', ' + data.mok + ', ' + data.sok + ', ' + data.start);
                 }
                 // Send it to all other clients
                 //socket.broadcast.emit('mouse', data);
