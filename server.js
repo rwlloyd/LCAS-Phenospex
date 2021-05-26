@@ -17,6 +17,14 @@ let slave_ip = '192.168.3.241';
 let master_url = 'http://' + master_ip + ':1612/scan/block-id?id='
 let slave_url = 'http://' + slave_ip + ':1612/scan/block-id?id='
 
+// list of allowed addresses use * to allow all
+const allowedOrigins = {
+  "origin": "*",
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "preflightContinue": false,
+  "optionsSuccessStatus": 204
+}
+
 // create variables for the data object and give them some initial values
 let new_id = '';
 let last_block_id;
@@ -35,10 +43,15 @@ let data = {
     "scan_finished":false
   };
 
+
 // Using express: http://expressjs.com/
-var express = require('express');
+const express = require('express');
 // Create the app
-var app = express();
+const app = express();
+
+// set allowed addresses on app instance
+const cors = require("cors");
+app.use(cors(corsOptions));
 
 // Set up the server
 // process.env.PORT is related to deploying on heroku //// may have to change this in production
@@ -50,14 +63,14 @@ var app = express();
 //  var port = server.address().port;
 //  console.log('Example app listening at http://' + host + ':' + port);
 
-var server = app.listen(3000)
+const server = app.listen(3000)
 console.log('App listening on port 3000');
 
 app.use(express.static('public'));
 
 // WebSocket Portion
 // WebSockets work with the HTTP server
-var io = require('socket.io')(server);
+const io = require('socket.io')(server);
 
 // Register a callback function to run when we have an individual connection
 // This is run for each individual user that connects
