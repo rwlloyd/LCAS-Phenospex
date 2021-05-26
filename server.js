@@ -18,7 +18,7 @@ let master_url = 'http://' + master_ip + ':1612/scan/block-id?id='
 let slave_url = 'http://' + slave_ip + ':1612/scan/block-id?id='
 
 // list of allowed addresses use * to allow all
-const allowedOrigins = {
+const corsOptions = {
   "origin": "*",
   "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
   "preflightContinue": false,
