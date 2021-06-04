@@ -109,9 +109,14 @@ io.sockets.on('connection',
                     data.newblock = '';
                     // we dont need to touch start-scan 
 
+                    console.log("Sent: " + data.newblock + ', ' + data.lastblock + ', ' + data.mok + ', ' + data.sok + ', ' + data.start + ', ' + data.scan_finished);
                     // Send the message to the clients so it can update th UI and wat for the start click
                     io.sockets.emit('data', data);
-                    console.log("Sent: " + data.newblock + ', ' + data.lastblock + ', ' + data.mok + ', ' + data.sok + ', ' + data.start);
+                    
+                }
+
+                if (scan_finished){
+                    data.lastblock = last_block_id;
                 }
                 // Send it to all other clients
                 //socket.broadcast.emit('mouse', data);
