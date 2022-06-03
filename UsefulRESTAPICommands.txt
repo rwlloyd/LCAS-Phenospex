@@ -1,19 +1,18 @@
-To Set the block-id on both scanners to 123;
+https://flaviocopes.com/fetch-api/
 
-POST http://192.168.3.241:1612/scan/block-id?id=123
-POST http://192.168.3.240:1612/scan/block-id?id=123
+To Set the block-id on both scanners to 123:
+  curl -v -X POST http://192.168.3.241:1612/scan/block-id?id=123
+  curl -v -X POST http://192.168.3.240:1612/scan/block-id?id=123
 
-to check the id
-
-curl -X 'GET' \
-  'http://192.168.3.240:1612/scan/block-id' \
+To check the id:
+  curl -v -X GET http://192.168.3.240:1612/scan/block-id \
   -H 'accept: text/plain'
 
-to set the id
-
-  curl -X 'POST' \
-  'http://192.168.3.240:1612/scan/block-id?id=543' \
+To set the id:
+  curl -v -X POST http://192.168.3.240:1612/scan/block-id?id=543 \
   -H 'accept: text/plain' \
   -d ''
 
-  https://flaviocopes.com/fetch-api/
+To start and stop a scan:
+  curl -v -X POST http://192.168.3.240:1612/scan/start
+  curl -v -X POST http://192.168.3.240:1612/scan/stop
